@@ -5,6 +5,8 @@ import hangman_art as art
 import hangman_words as words
 
 
+def logo():
+    print(art.logo)
 # Clear the current console, and just print the last value.
 import os
 # Clear Function
@@ -26,30 +28,34 @@ for _ in range(word_length):
 
 # Asking the user to Guess the word by putting one by one letter.
 fail = 6
-letter_already_guessed = 0
+letter_already_guessed = 0 
 while True:
+    # Allow to use cls and only had 1 display on the console.
+    def logo_stage_display():
+        logo()
+        print(f"{' '.join(display)}")
+        print(art.stages[fail])
     guess = input("Guess a letter: ").lower()
-
+    cls()
+    if guess in display:
+        print(f"You've already guessed {guess}")
     #Check guessed letter
     for position in range(word_length):
         letter = chosen_word[position]
-        # print(f"Current position: {position}\n Current letter: {letter}\n Guessed letter: {guess}")
         if chosen_word[position] == guess:
             display[position] = letter
-            letter_already_guessed += 1
         elif guess not in chosen_word:
-            print(f"Oh no! {guess} isn't included, you lose a life.")
+            print(f"Oh no! You guessed {guess}, that isn't included, you lose a life.")
             fail -= 1
             break
-    # cls()  
-    print(art.stages[fail])
     if "_" not in display:
-        print(f"{' '.join(display)}")
+        logo_stage_display()
         print("You Win =)")
         break
     elif fail == 0:
-        print(f"{' '.join(display)}")
+        logo_stage_display()
+        print(f"The word was '{chosen_word}'")
         print("You lose =(")
         break
     else:
-        print(f"{' '.join(display)}")
+        logo_stage_display()
